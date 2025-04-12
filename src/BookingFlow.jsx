@@ -30,7 +30,7 @@ const BookingFlow = () => {
       <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-6 mb-8 px-4">
         <h2 className="text-3xl font-bold text-gray-800">Easy Booking</h2>
         <p className="text-blue-700 text-lg font-medium animate-bounce duration-1000 delay-300">
-          📞 Call us now: <span className="font-semibold">+91 98765 43210</span>
+          📞 Call us now: <span className="font-semibold">+91 7695811933</span>
         </p>
       </div>
 

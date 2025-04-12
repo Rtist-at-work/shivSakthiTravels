@@ -7,19 +7,19 @@ const Footer = () => {
         {/* Contact Details */}
         <div>
           <h3 className="text-lg font-semibold">Contact Us</h3>
-          <p className="mt-2 flex items-center gap-2"><FaPhone /> +91 98765 43210</p>
-          <p className="mt-1 flex items-center gap-2"><FaEnvelope /> contact@shivsakthitravels.com</p>
+          <p className="mt-2 flex items-center gap-2"><FaPhone /> +91 7695811933</p>
+          <p className="mt-1 flex items-center gap-2"><FaEnvelope /> shivsakthitravels7@gmail.com</p>
         </div>
 
         {/* Quick Links */}
         <div>
           <h3 className="text-lg font-semibold">Quick Links</h3>
           <ul className="mt-2 space-y-1">
-            <li><a href="#" className="hover:underline">Home</a></li>
-            <li><a href="#" className="hover:underline">About Us</a></li>
-            <li><a href="#" className="hover:underline">Services</a></li>
-            <li><a href="#" className="hover:underline">Tariffs</a></li>
-            <li><a href="#" className="hover:underline">Contact</a></li>
+            <li><a href="#booking"  className="hover:underline">Home</a></li>
+            <li><a href="#about" className="hover:underline">About Us</a></li>
+            <li><a href="#vehicles" className="hover:underline">Services</a></li>
+            <li><a href="#tarrifs" className="hover:underline">Tariffs</a></li>
+            {/* <li><a href="#" className="hover:underline">Contact</a></li> */}
           </ul>
         </div>
 

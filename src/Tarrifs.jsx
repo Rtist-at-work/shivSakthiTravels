@@ -1,73 +1,40 @@
 import { useState } from "react";
 import "./index.css";
 
-const Tariffs = () => {
+const Tariffs = ({ tarrifs }) => {
   const [isLocal, setIsLocal] = useState(true);
 
-  const vehicles = [
-    { name: "Eco", seats: 4 },
-    { name: "Sedan", seats: 4 },
-    { name: "Tavera", seats: 7 },
-    { name: "Xilo", seats: 7 },
-    { name: "Innova", seats: 7 },
-    { name: "Tempo Traveller", seats: 12 },
-    { name: "Coach", seats: 30 },
-    { name: "Mini Bus", seats: 20 },
-  ];
+  const localData = tarrifs.find(t => t.type === "local")?.tariffs || [];
+  const outstationData = tarrifs.find(t => t.type === "outstation")?.districts || [];
 
-  const getLocalTariff = (vehicleName, type) => {
-    const localTariff = {
-      "Eco": { first20: 300, additional: 12 },
-      "Sedan": { first20: 400, additional: 14 },
-      "Tavera": { first20: 500, additional: 16 },
-      "Xilo": { first20: 500, additional: 16 },
-      "Innova": { first20: 600, additional: 18 },
-      "Tempo Traveller": { first20: 900, additional: 22 },
-      "Coach": { first20: 1500, additional: 28 },
-      "Mini Bus": { first20: 1200, additional: 25 },
+  // Dynamically collect all vehicle types
+  const vehicleNames = Array.from(new Set([
+    ...localData.flatMap(item => Object.keys(item.rates || {})),
+    ...outstationData.flatMap(item => Object.keys(item.rates || {}))
+  ]));
+
+  const getSeats = (vehicle) => {
+    const seatsMap = {
+      "Eco": 4, "Mini": 4, "Sedan": 4, "Tavera": 7, "Xilo": 7,
+      "Innova": 7, "Tempo Traveller": 12, "Coach": 30, "Mini Bus": 20
     };
-    return localTariff[vehicleName]?.[type];
+    return seatsMap[vehicle] || "-";
   };
-
-  const getOutstationPrice = (district, vehicleName) => {
-    const basePrice = {
-      "Mini" : 10,
-      "Eco": 10,
-      "Sedan": 12,
-      "Tavera": 14,
-      "Xilo": 14,
-      "Innova": 15,
-      "Tempo Traveller": 18,
-      "Coach": 22,
-      "Mini Bus": 20,
-    };
-    return basePrice[vehicleName] * (district.length + 10);
-  };
-
-  const districts = [
-    "Chennai", "Vellore", "Pondicherry", "Tiruvannamalai", "Salem", "Erode",
-    "Coimbatore", "Trichy", "Thanjavur", "Pazhani", "Theni", "Dindigul",
-  ];
 
   return (
     <section id="tarrifs" className="relative w-full py-10 bg-gray-100">
       <h2 className="text-3xl font-bold text-center mb-4 dimlight">Tariff Details</h2>
 
-      {/* Switch */}
       <div className="flex justify-center mb-6">
         <button
           onClick={() => setIsLocal(true)}
-          className={`px-6 py-2 rounded-l-full text-white font-medium ${
-            isLocal ? "bg-blue-600" : "bg-gray-400"
-          }`}
+          className={`px-6 py-2 rounded-l-full text-white font-medium ${isLocal ? "bg-blue-600" : "bg-gray-400"}`}
         >
           Local Tariff
         </button>
         <button
           onClick={() => setIsLocal(false)}
-          className={`px-6 py-2 rounded-r-full text-white font-medium ${
-            !isLocal ? "bg-blue-600" : "bg-gray-400"
-          }`}
+          className={`px-6 py-2 rounded-r-full text-white font-medium ${!isLocal ? "bg-blue-600" : "bg-gray-400"}`}
         >
           Outstation Tariff
         </button>
@@ -79,42 +46,41 @@ const Tariffs = () => {
             <tr>
               <th className="p-3 border">{isLocal ? "Tariff Type" : "District"}</th>
               <th className="p-3 border">{isLocal ? "KM Range" : "KMs"}</th>
-              {vehicles.map((vehicle, index) => (
-                <th key={index} className="p-3 border">{vehicle.name}</th>
+              {vehicleNames.map((vehicle, index) => (
+                <th key={index} className="p-3 border">{vehicle}</th>
               ))}
             </tr>
             <tr className="bg-blue-100 text-gray-800 font-medium">
               <td className="p-2 border" colSpan={2}>Seating Capacity</td>
-              {vehicles.map((vehicle, index) => (
-                <td key={index} className="p-2 border">{vehicle.seats} Seater</td>
+              {vehicleNames.map((vehicle, index) => (
+                <td key={index} className="p-2 border">{getSeats(vehicle)} Seater</td>
               ))}
             </tr>
           </thead>
           <tbody>
             {isLocal ? (
-              <>
-                <tr className="hover:bg-gray-50">
-                  <td className="p-3 border font-semibold">First 20 KMs</td>
-                  <td className="p-3 border">0 - 20 KM</td>
-                  {vehicles.map((vehicle, i) => (
-                    <td key={i} className="p-3 border">₹{getLocalTariff(vehicle.name, "first20")}</td>
+              localData.map((item, idx) => (
+                <tr key={idx} className="hover:bg-gray-50">
+                  <td className="p-3 border font-semibold">{item.range}</td>
+                  <td className="p-3 border">{item.km}</td>
+                  {vehicleNames.map((vehicle, i) => (
+                    <td key={i} className="p-3 border">
+                      ₹{item.rates[vehicle]?.price || "-"}<br />
+                      <small className="text-gray-500">+₹{item.rates[vehicle]?.additional || 0}/km</small>
+                    </td>
                   ))}
                 </tr>
-                <tr className="hover:bg-gray-50">
-                  <td className="p-3 border font-semibold">Additional KM</td>
-                  <td className="p-3 border">After 20 KM</td>
-                  {vehicles.map((vehicle, i) => (
-                    <td key={i} className="p-3 border">₹{getLocalTariff(vehicle.name, "additional")}</td>
-                  ))}
-                </tr>
-              </>
+              ))
             ) : (
-              districts.map((district, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="p-3 border font-semibold">{district}</td>
-                  <td className="p-3 border">{(index + 1) * 10} km</td>
-                  {vehicles.map((vehicle, i) => (
-                    <td key={i} className="p-3 border">₹{getOutstationPrice(district, vehicle.name)}</td>
+              outstationData.map((district, idx) => (
+                <tr key={idx} className="hover:bg-gray-50">
+                  <td className="p-3 border font-semibold">{district.name}</td>
+                  <td className="p-3 border">{district.km} km</td>
+                  {vehicleNames.map((vehicle, i) => (
+                    <td key={i} className="p-3 border">
+                      ₹{district.rates[vehicle]?.price || "-"}<br />
+                      <small className="text-gray-500">Wait ₹{district.rates[vehicle]?.waitingCharges || 0}</small>
+                    </td>
                   ))}
                 </tr>
               ))

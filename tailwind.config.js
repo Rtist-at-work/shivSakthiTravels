@@ -4,6 +4,14 @@ export default {
   theme: {
     extend: {
       scrollBehavior: ['responsive'],
+      screens: {
+        'xsm': '320px',   // Extra small
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
       animation: {
         wiggle: "wiggle 1s ease-in-out infinite",
         "fade-in": "fadeIn 1s ease-in-out forwards",
@@ -20,6 +28,5 @@ export default {
       },
     },
   },
-
   plugins: [require("tailwindcss-textshadow")],
 };
