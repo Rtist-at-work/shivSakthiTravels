@@ -15,7 +15,7 @@ function App() {
 
   const getTarrifs = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/tariffs");
+        const res = await axios.get("https://18.117.186.10:5000/tariffs");
       console.log(res);
       if (res.status === 200) setTarrifs(res.data);
     } catch (err) {
