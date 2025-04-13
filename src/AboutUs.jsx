@@ -1,3 +1,4 @@
+import about from './assets/about.jpg'
 const AboutUs = () => {
     return (
       <section id='about' className="bg-gray-100 py-12">
@@ -5,7 +6,7 @@ const AboutUs = () => {
           {/* Left Side - Image */}
           <div className="w-full md:w-1/2">
             <img
-              src="https://source.unsplash.com/600x400/?travel,nature"
+              src={about}
               alt="About Us"
               className="w-full rounded-lg shadow-lg"
             />

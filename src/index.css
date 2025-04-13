@@ -41,7 +41,7 @@
   }
   
   .animated-text {
-    font-size: 3rem;
+    font-size: clamp(1.5rem, 5vw, 3.5rem); /* Responsive size from mobile to desktop */
     font-weight: bold;
     background: url("./assets/im.jpg");
     background-size: cover;
