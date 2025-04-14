@@ -12,10 +12,7 @@ import axios from "axios";
 
 function App() {
   const [tarrifs, setTarrifs] = useState([]);
-  const baseURL =
-  import.meta.env.MODE === "production"
-    ? "https://www.shivsakthitravels.com/api"
-    : "http://localhost:5000/api";
+  const baseURL = "https://www.shivsakthitravels.com/api"
 
 
     const getTarrifs = async () => {
