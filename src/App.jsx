@@ -12,10 +12,15 @@ import axios from "axios";
 
 function App() {
   const [tarrifs, setTarrifs] = useState([]);
+  const baseURL =
+  import.meta.env.MODE === "production"
+    ? "https://www.shivsakthitravels.com"
+    : "http://localhost:5000";
+
 
   const getTarrifs = async () => {
     try {
-        const res = await axios.get("https://shivsakthitravels.com/tariffs");
+      const res = await axios.get(`${baseURL}/tariffs`);
       console.log(res);
       if (res.status === 200) setTarrifs(res.data);
     } catch (err) {
