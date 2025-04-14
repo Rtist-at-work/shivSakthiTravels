@@ -1,53 +1,48 @@
 import { useEffect, useState } from "react";
-import AboutUs from "./AboutUs";
+import axios from "axios";
+import Header from "./Header";
 import BookingFlow from "./BookingFlow";
-import CustomerShowCase from "./CustomerShowCase";
+import Tariffs from "./Tarrifs";
+import AboutUs from "./AboutUs";
+import Services from "./Serivces";
 import FeaturedVehicles from "./FeaturedVehicles";
 import Footer from "./Footer";
-import Header from "./Header";
-import Services from "./Serivces";
-import Tariffs from "./Tarrifs";
-import TravelTips from "./TravelTips";
-import axios from "axios";
 
 function App() {
   const [tarrifs, setTarrifs] = useState([]);
-  const baseURL = "https://www.shivsakthitravels.com/api"
+
+  const baseURL = location.hostname === 'localhost'
+  ? 'http://localhost:5000/api'
+  : 'https://shivsakthitravels.com/api';
 
 
-    const getTarrifs = async () => {
-      try {
-        const res = await axios.get(`${baseURL}/tariffs`);
-        if (res.status === 200) {
-         if(Array.isArray(res.data)){
+  const getTarrifs = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/tariffs`);
+      if (res.status === 200) {
+        if (Array.isArray(res.data)) {
           setTarrifs(res.data);
-         }
-        else{
+        } else {
           setTarrifs([res.data]);
         }
-        } else {
-          console.error('Unexpected data format:', res.data);
-        }
-      } catch (err) {
-        console.error('Error fetching tariffs:', err);
       }
-    };
-    
+    } catch (err) {
+      console.error("Error fetching tariffs:", err);
+    }
+  };
 
   useEffect(() => {
     getTarrifs();
   }, []);
+
   return (
-    <div className=" relative h-screen w-screen">
+    <div className="relative h-screen w-screen">
       <Header />
-      {/* <TravelTips/> */}
       <BookingFlow />
       <Tariffs tarrifs={tarrifs} />
       <AboutUs />
       <Services />
-      {/* <CustomerShowCase/> */}
       <FeaturedVehicles />
-
       <Footer />
     </div>
   );
