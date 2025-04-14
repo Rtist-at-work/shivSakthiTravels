@@ -14,8 +14,8 @@ function App() {
   const [tarrifs, setTarrifs] = useState([]);
   const baseURL =
   import.meta.env.MODE === "production"
-    ? "https://www.shivsakthitravels.com"
-    : "http://localhost:5000";
+    ? "https://www.shivsakthitravels.com/api"
+    : "http://localhost:5000/api";
 
 
     const getTarrifs = async () => {
