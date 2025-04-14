@@ -18,15 +18,24 @@ function App() {
     : "http://localhost:5000";
 
 
-  const getTarrifs = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/tariffs`);
-      console.log(res);
-      if (res.status === 200) setTarrifs(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    const getTarrifs = async () => {
+      try {
+        const res = await axios.get(`${baseURL}/tariffs`);
+        if (res.status === 200) {
+         if(Array.isArray(res.data)){
+          setTarrifs(res.data);
+         }
+        else{
+          setTarrifs([res.data]);
+        }
+        } else {
+          console.error('Unexpected data format:', res.data);
+        }
+      } catch (err) {
+        console.error('Error fetching tariffs:', err);
+      }
+    };
+    
 
   useEffect(() => {
     getTarrifs();
